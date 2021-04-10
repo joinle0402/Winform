@@ -11,3 +11,5 @@ C:\Users\John Smith\source\repos\WindowsFormsApp\obj\Debug\WindowsFormsApp.Form7
 C:\Users\John Smith\source\repos\WindowsFormsApp\obj\Debug\WindowsFormsApp.Form8.resources
 C:\Users\John Smith\source\repos\WindowsFormsApp\obj\Debug\WindowsFormsApp.Form9.resources
 C:\Users\John Smith\source\repos\WindowsFormsApp\obj\Debug\WindowsFormsApp.Form10.resources
+C:\Users\John Smith\source\repos\WindowsFormsApp\obj\Debug\WindowsFormsApp.Form11.resources
+C:\Users\John Smith\source\repos\WindowsFormsApp\obj\Debug\WindowsFormsApp.Form12.resources

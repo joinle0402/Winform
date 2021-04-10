@@ -12,7 +12,7 @@ namespace WindowsFormsApp
 {
     public partial class Form10 : Form
     {
-        List<List<Book>> BookMenu = new List<List<Book>>();
+        List<Book> bookList = new List<Book>();
 
         private double GetTotalPrice()
         {
@@ -33,55 +33,66 @@ namespace WindowsFormsApp
 
         private void Form10_Load(object sender, EventArgs e)
         {
-            TreeNode root1 = new TreeNode("Tin học");
-            root1.Nodes.AddRange(new TreeNode[] 
-            { 
-                new TreeNode("Lập trình giao diện"),
-                new TreeNode("Mạng máy tính"),
-                new TreeNode("Cơ sở dữ liệu")
-            });
+            treeViewBookTypes.Nodes.Add("Tin học");
+            treeViewBookTypes.Nodes[0].Nodes.Add("Lập trình giao diện");
+            treeViewBookTypes.Nodes[0].Nodes.Add("Mạng máy tính");
+            treeViewBookTypes.Nodes.Add("Thiều nhi");
+            treeViewBookTypes.Nodes[1].Nodes.Add("Tấm cám");
+            treeViewBookTypes.Nodes[1].Nodes.Add("Thánh giống");
 
-            TreeNode root2 = new TreeNode("Thiều nhi");
-            root2.Nodes.AddRange(new TreeNode[]
-            {
-                new TreeNode("Tấm cám"),
-                new TreeNode("Thánh giống")
-            });
-
-            treeViewBookTypes.Nodes.AddRange(new TreeNode[] { root1, root2 });
-
-            List<Book> books1 = new List<Book>();
-            books1.Add(new Book("Lập trình giao diện", "Phương Linh", 35000));
-            books1.Add(new Book("Mạng máy tính", "Minh Khánh", 45000));
-            books1.Add(new Book("Cơ sở dữ liệu", "Thiên Trang", 30000));
-            BookMenu.Add(books1);
-
-            List<Book> books2 = new List<Book>();
-            books2.Add(new Book("Tấm cám", "Chuyện cổ tính", 25000));
-            books2.Add(new Book("Thánh giống", "Chuyện cổ tính", 40000));
-            BookMenu.Add(books2);
+            bookList.Add(new Book("Lập trình giao diện", "Phương Linh", 35000));
+            bookList.Add(new Book("Mạng máy tính", "Minh Khánh", 45000));
+            bookList.Add(new Book("Cơ sở dữ liệu", "Thiên Trang", 30000));
+            bookList.Add(new Book("Tấm cám", "Chuyện cổ tính", 25000));
+            bookList.Add(new Book("Thánh giống", "Chuyện cổ tính", 40000));
         }
 
         private void treeViewBookTypes_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (treeViewBookTypes.SelectedNode.Index >= 0)
             {
-                listViewBooks.Items.Clear();
-                List<Book> books = BookMenu[treeViewBookTypes.SelectedNode.Index];
-
-                foreach (Book book in books)
+                if (treeViewBookTypes.SelectedNode.Parent != null)
                 {
-                    string[] rowData = new string[]
+                    int index = 0;
+                    for (int i = 0; i < treeViewBookTypes.SelectedNode.Parent.Index; i++)
+                        index += treeViewBookTypes.Nodes[i].Nodes.Count;
+                    Book book = bookList[index + treeViewBookTypes.SelectedNode.Index];
+                    string[] rowData = new string[] 
                     {
                         book.Subject,
                         book.Author,
                         book.UnitPrice.ToString()
                     };
                     ListViewItem listViewItem = new ListViewItem(rowData);
+                    listViewBooks.Items.Clear();
                     listViewBooks.Items.Add(listViewItem);
                 }
+                else
+                {
+                    listViewBooks.Items.Clear();
 
-                labelTotalPrice.Text = $"Tổng thành tiền là: {GetTotalPrice()}";
+                    int index = 0;
+                    for (int i = 0; i < treeViewBookTypes.SelectedNode.Index; i++)
+                    {
+                        index += treeViewBookTypes.Nodes[i].Nodes.Count;
+                    }
+
+                    for (int i = 0; i < treeViewBookTypes.SelectedNode.Nodes.Count; i++)
+                    {
+                        Book book = bookList[index + i];
+                        string[] rowData = new string[]
+                        {
+                            book.Subject,
+                            book.Author,
+                            book.UnitPrice.ToString()
+                        };
+                        ListViewItem listViewItem = new ListViewItem(rowData);
+                        
+                        listViewBooks.Items.Add(listViewItem);
+                    }
+                }
+
+                labelTotalPrice.Text = $"Tổng thành tiền là : {GetTotalPrice()}";
             }
         }
     }
